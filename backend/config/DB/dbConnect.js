@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const DbConnect = async () => {
-  //   const DB_URL = process.env.DB_URL;
-  // const DB_LOCAL = process.env.DB_LOCAL;
+  const DB_URL = process.env.DB_URL;
+  const DB_LOCAL = process.env.DB_LOCAL;
   try {
-    await mongoose.connect('mongodb://localhost:27017/blogMern', {
+    await mongoose.connect(DB_LOCAL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

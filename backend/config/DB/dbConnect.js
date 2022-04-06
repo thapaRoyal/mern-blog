@@ -1,5 +1,7 @@
+// imports
 const mongoose = require('mongoose');
 
+// DB connection
 const DbConnect = async () => {
   const DB_URL = process.env.DB_URL;
   const DB_LOCAL = process.env.DB_LOCAL;
@@ -14,4 +16,5 @@ const DbConnect = async () => {
   }
 };
 
+// Exports
 module.exports = DbConnect;

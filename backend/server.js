@@ -9,8 +9,10 @@ const app = express();
 // DB
 DbConnect();
 
+// PORT
 const PORT = process.env.PORT || 8000;
 
+// Listen to port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} `);
 });

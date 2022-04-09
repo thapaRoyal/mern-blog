@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const DbConnect = require('./config/DB/dbConnect');
 const bodyParser = require('body-parser');
-const userRoute = require('./routes/users/users-route');
+const router = require('./routes/users/users-route');
 const { errorHandler } = require('./middleware/error/errorHandler');
 
 // server
@@ -16,7 +16,7 @@ DbConnect();
 app.use(bodyParser.json());
 
 // routes
-app.use('/', userRoute);
+app.use(router);
 
 // middleware || error handler
 app.use(errorHandler);

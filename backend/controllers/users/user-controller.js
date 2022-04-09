@@ -1,8 +1,9 @@
 // imports
 const User = require('../../models/user/User-model');
+const expressAsyncHandler = require('express-async-handler');
 
 // register controller
-const userRegisterController = async (req, res) => {
+const userRegisterController = expressAsyncHandler(async (req, res) => {
   // destructureRequestBody(req);
   const { firstName, lastName, email, password } = req.body;
 
@@ -27,7 +28,7 @@ const userRegisterController = async (req, res) => {
   } catch (err) {
     res.json({ user: 'User registered' });
   }
-};
+});
 
 // exports
 module.exports = { userRegisterController };

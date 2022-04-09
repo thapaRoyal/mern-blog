@@ -2,6 +2,10 @@
 require('dotenv').config();
 const express = require('express');
 const DbConnect = require('./config/DB/dbConnect');
+const {
+  userRegisterController,
+} = require('./controllers/users/user-controller');
+const bodyParser = require('body-parser');
 
 // server
 const app = express();
@@ -9,11 +13,11 @@ const app = express();
 // DB
 DbConnect();
 
+// middleware
+app.use(bodyParser.json());
+
 // Register route (post request))
-app.post('/api/users/register', (req, res) => {
-  // business logic
-  res.json({ user: 'User registered' });
-});
+app.post('/api/users/register', userRegisterController);
 
 // Login route (post request))
 app.post('/api/users/login', (req, res) => {

@@ -34,11 +34,15 @@ const userRegisterController = expressAsyncHandler(async (req, res) => {
 const loginUserController = expressAsyncHandler(async (req, res) => {
   // destructureRequestBody(req);
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error('User not found');
+  // Check if user exists
+  const userFound = await User.findOne({ email });
+  //  check if password is matched
+  if (userFound && (await userFound.isPasswordMatched(password))) {
+    res.json(userFound);
   }
-  res.json({ user: 'Login successful' });
+  res.status(400).json({
+    error: 'User not found',
+  });
 });
 
 // exports

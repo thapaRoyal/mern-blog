@@ -4,7 +4,7 @@ const express = require('express');
 const DbConnect = require('./config/DB/dbConnect');
 const bodyParser = require('body-parser');
 const router = require('./routes/users/users-route');
-const { errorHandler } = require('./middleware/error/errorHandler');
+const { errorHandler, notFound } = require('./middleware/error/errorHandler');
 
 // server
 const app = express();
@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 app.use(router);
 
 // middleware || error handler
+app.use(notFound);
 app.use(errorHandler);
 
 // PORT

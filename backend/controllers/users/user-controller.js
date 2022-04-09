@@ -30,5 +30,16 @@ const userRegisterController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// login controller
+const loginUserController = expressAsyncHandler(async (req, res) => {
+  // destructureRequestBody(req);
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('User not found');
+  }
+  res.json({ user: 'Login successful' });
+});
+
 // exports
-module.exports = { userRegisterController };
+module.exports = { userRegisterController, loginUserController };

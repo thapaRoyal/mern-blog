@@ -1,6 +1,7 @@
 // imports
 const User = require('../../models/user/User-model');
 const expressAsyncHandler = require('express-async-handler');
+const generateToken = require('../../config/token/generateToken');
 
 // register controller
 const userRegisterController = expressAsyncHandler(async (req, res) => {
@@ -38,7 +39,14 @@ const loginUserController = expressAsyncHandler(async (req, res) => {
   const userFound = await User.findOne({ email });
   //  check if password is matched
   if (userFound && (await userFound.isPasswordMatched(password))) {
-    res.json(userFound);
+    res.json({
+      firstName: userFound.firstName,
+      lastName: userFound.lastName,
+      email: userFound.email,
+      profilePhoto: userFound.profilePhoto,
+      isAdmin: userFound.isAdmin,
+      token: generateToken(userFound._id),
+    });
   }
   res.status(400).json({
     error: 'User not found',

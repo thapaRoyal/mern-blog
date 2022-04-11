@@ -40,6 +40,7 @@ const loginUserController = expressAsyncHandler(async (req, res) => {
   //  check if password is matched
   if (userFound && (await userFound.isPasswordMatched(password))) {
     return res.json({
+      _id: userFound._id,
       firstName: userFound.firstName,
       lastName: userFound.lastName,
       email: userFound.email,
@@ -53,5 +54,19 @@ const loginUserController = expressAsyncHandler(async (req, res) => {
   });
 });
 
+// fetch all users
+const fetchAllUsersController = expressAsyncHandler(async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (err) {
+    res.json({ error: 'Error fetching users' });
+  }
+});
+
 // exports
-module.exports = { userRegisterController, loginUserController };
+module.exports = {
+  userRegisterController,
+  loginUserController,
+  fetchAllUsersController,
+};

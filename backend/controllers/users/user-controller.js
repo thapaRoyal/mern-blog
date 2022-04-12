@@ -2,6 +2,7 @@
 const User = require('../../models/user/User-model');
 const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../../config/token/generateToken');
+const validateMongoId = require('../utils/validateMongoId');
 
 // register controller
 const userRegisterController = expressAsyncHandler(async (req, res) => {
@@ -64,9 +65,25 @@ const fetchAllUsersController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// delete user
+const deleteUserController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  // if user id is valid
+  validateMongoId(id);
+  // delete
+  if (!id) throw new Error('No id provided');
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    res.json(deletedUser);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 // exports
 module.exports = {
   userRegisterController,
   loginUserController,
   fetchAllUsersController,
+  deleteUserController,
 };

@@ -5,7 +5,7 @@ const User = require('../../models/user/User-model');
 const authMiddleware = expressAsyncHandler(async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization.startsWith('Bearer')) {
+  if (req.headers.authorization?.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
       if (token) {
@@ -25,6 +25,10 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
         message: 'Unauthorized',
       });
     }
+  } else {
+    res.status(401).json({
+      message: 'Unauthorized',
+    });
   }
 });
 

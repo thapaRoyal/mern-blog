@@ -108,6 +108,29 @@ const userProfileController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// update user profile
+const updateUserProfileController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  // if user id is valid
+  validateMongoId(id);
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      bio: req.body.bio,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.json(user);
+  console.log(user);
+});
+
 // exports
 module.exports = {
   userRegisterController,
@@ -116,4 +139,5 @@ module.exports = {
   deleteUserController,
   fetchUserDetailsController,
   userProfileController,
+  updateUserProfileController,
 };

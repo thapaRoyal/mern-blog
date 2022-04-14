@@ -149,7 +149,19 @@ const updateUserPasswordController = expressAsyncHandler(async (req, res) => {
 
 // following
 const followingUserController = expressAsyncHandler(async (req, res) => {
-  return res.json('following api');
+  const { followId } = req.body;
+  const loginUserId = req.user.id;
+
+  // 1. find the user you want to follow and update its followers field
+  await User.findByIdAndUpdate(followId, {
+    $push: { followers: loginUserId },
+  });
+  // 2. Update the login user following field
+  await User.findByIdAndUpdate(loginUserId, {
+    $push: { following: followId },
+  });
+
+  res.json('You have successfully followed the user');
 });
 
 // exports

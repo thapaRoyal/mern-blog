@@ -98,7 +98,6 @@ const fetchUserDetailsController = expressAsyncHandler(async (req, res) => {
 const userProfileController = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   // if user id is valid
-  validateMongoId(id);
 
   try {
     const myProfile = await User.findById(id);
@@ -132,18 +131,25 @@ const updateUserProfileController = expressAsyncHandler(async (req, res) => {
 
 // update password
 const updateUserPasswordController = expressAsyncHandler(async (req, res) => {
+  //destructure the login user
   const { _id } = req.user;
   const { password } = req.body;
-  // if user id is valid
   validateMongoId(_id);
+  //Find the user by _id
+  const user = await User.findById(_id);
 
-  const user = await User.findByIdAndUpdate(_id);
   if (password) {
     user.password = password;
     const updatedUser = await user.save();
-    return res.json(updatedUser);
+    res.json(updatedUser);
+  } else {
+    res.json(user);
   }
-  res.json(user);
+});
+
+// following
+const followingUserController = expressAsyncHandler(async (req, res) => {
+  return res.json('following api');
 });
 
 // exports
@@ -156,4 +162,5 @@ module.exports = {
   userProfileController,
   updateUserProfileController,
   updateUserPasswordController,
+  followingUserController,
 };

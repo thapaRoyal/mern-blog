@@ -22,12 +22,12 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
       }
     } catch (err) {
       return res.status(401).json({
-        message: 'Unauthorized',
+        message: 'Token expired',
       });
     }
   } else {
     res.status(401).json({
-      message: 'Unauthorized',
+      message: 'No token provided',
     });
   }
 });

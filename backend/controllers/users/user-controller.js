@@ -94,6 +94,20 @@ const fetchUserDetailsController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// user profile
+const userProfileController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  // if user id is valid
+  validateMongoId(id);
+
+  try {
+    const myProfile = await User.findById(id);
+    res.json(myProfile);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 // exports
 module.exports = {
   userRegisterController,
@@ -101,4 +115,5 @@ module.exports = {
   fetchAllUsersController,
   deleteUserController,
   fetchUserDetailsController,
+  userProfileController,
 };

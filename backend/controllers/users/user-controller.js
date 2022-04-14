@@ -128,7 +128,6 @@ const updateUserProfileController = expressAsyncHandler(async (req, res) => {
     }
   );
   res.json(user);
-  console.log(user);
 });
 
 // exports

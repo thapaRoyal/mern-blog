@@ -134,7 +134,6 @@ const updateUserProfileController = expressAsyncHandler(async (req, res) => {
 const updateUserPasswordController = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { password } = req.body;
-  console.log(_id);
   // if user id is valid
   validateMongoId(_id);
 
@@ -142,7 +141,7 @@ const updateUserPasswordController = expressAsyncHandler(async (req, res) => {
   if (password) {
     user.password = password;
     const updatedUser = await user.save();
-    res.json(updatedUser);
+    return res.json(updatedUser);
   }
   res.json(user);
 });

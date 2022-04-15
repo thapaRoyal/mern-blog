@@ -11,6 +11,7 @@ const {
   updateUserPasswordController,
   followingUserController,
   unfollowUserController,
+  blockUserController,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -32,6 +33,11 @@ router.put(
   '/api/users/profile/unfollow',
   authMiddleware,
   unfollowUserController
+);
+router.put(
+  '/api/users/profile/block-user/:id',
+  authMiddleware,
+  blockUserController
 );
 router.get('/api/users/profile/:id', authMiddleware, userProfileController);
 router.put(

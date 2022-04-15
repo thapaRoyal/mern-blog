@@ -12,6 +12,7 @@ const {
   followingUserController,
   unfollowUserController,
   blockUserController,
+  unBlockUserController,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -38,6 +39,11 @@ router.put(
   '/api/users/profile/block-user/:id',
   authMiddleware,
   blockUserController
+);
+router.put(
+  '/api/users/profile/unblock-user/:id',
+  authMiddleware,
+  unBlockUserController
 );
 router.get('/api/users/profile/:id', authMiddleware, userProfileController);
 router.put(

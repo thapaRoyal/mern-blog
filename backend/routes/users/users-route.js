@@ -13,6 +13,7 @@ const {
   unfollowUserController,
   blockUserController,
   unBlockUserController,
+  generateVerificationTokenController,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -30,6 +31,7 @@ router.put(
   authMiddleware,
   followingUserController
 );
+router.post('/api/users/send-mail', generateVerificationTokenController);
 router.put(
   '/api/users/profile/unfollow',
   authMiddleware,

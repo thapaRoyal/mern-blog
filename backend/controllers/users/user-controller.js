@@ -3,6 +3,8 @@ const User = require('../../models/user/User-model');
 const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../../config/token/generateToken');
 const validateMongoId = require('../../utils/validateMongoId');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // register controller
 const userRegisterController = expressAsyncHandler(async (req, res) => {
@@ -253,6 +255,26 @@ const unBlockUserController = expressAsyncHandler(async (req, res) => {
   res.json(user);
 });
 
+// send email || account verification
+
+const generateVerificationTokenController = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // build message
+      const msg = {
+        to: 'thaparoyal17@gmail.com',
+        from: 'thaparoyal27@gmail.com',
+        subject: 'Account Verification',
+        text: 'Click the link to verify your account',
+      };
+      await sgMail.send(msg);
+      res.json('Email sent');
+    } catch (err) {
+      res.json(err);
+    }
+  }
+);
+
 // exports
 module.exports = {
   userRegisterController,
@@ -267,4 +289,5 @@ module.exports = {
   unfollowUserController,
   blockUserController,
   unBlockUserController,
+  generateVerificationTokenController,
 };

@@ -5,9 +5,9 @@ const generateToken = require('../../config/token/generateToken');
 const validateMongoId = require('../../utils/validateMongoId');
 // const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const nodeMailer = require('nodemailer');
 
 // NODEMAILER
-const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
   service: 'gmail',
   auth: {
@@ -293,12 +293,11 @@ const generateVerificationTokenController = expressAsyncHandler(
     //   res.json(err);
     // }
     await transporter.sendMail(mailOptions, (error, success) => {
-      if (error) {
-        console.log(error);
+      if (success) {
+        res.json('Email sent: ' + success.response);
       } else {
-        console.log('Email sent: ' + success.response);
+        console.log(error);
       }
-      res.json('Email sent');
     });
   }
 );

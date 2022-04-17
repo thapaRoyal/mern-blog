@@ -3,8 +3,28 @@ const User = require('../../models/user/User-model');
 const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../../config/token/generateToken');
 const validateMongoId = require('../../utils/validateMongoId');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+// NODEMAILER
+const nodeMailer = require('nodemailer');
+let transporter = nodeMailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'thaparoyal27@gmail.com',
+    pass: 'M@HAKAAL',
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+let mailOptions = {
+  from: 'thaparoyal27@gmail.com',
+  to: 'thaparoyal17@gmail.com',
+  subject: 'Email verification',
+  text: 'Click on the link to verify your email',
+};
 
 // register controller
 const userRegisterController = expressAsyncHandler(async (req, res) => {
@@ -259,19 +279,27 @@ const unBlockUserController = expressAsyncHandler(async (req, res) => {
 
 const generateVerificationTokenController = expressAsyncHandler(
   async (req, res) => {
-    try {
-      // build message
-      const msg = {
-        to: 'thaparoyal17@gmail.com',
-        from: 'thaparoyal27@gmail.com',
-        subject: 'Account Verification',
-        text: 'Click the link to verify your account',
-      };
-      await sgMail.send(msg);
+    // try {
+    //   // build message
+    //   const msg = {
+    //     to: 'thaparoyal17@gmail.com',
+    //     from: 'thaparoyal27@gmail.com',
+    //     subject: 'Account Verification',
+    //     text: 'Click the link to verify your account',
+    //   };
+    //   await sgMail.send(msg);
+    //   res.json('Email sent');
+    // } catch (err) {
+    //   res.json(err);
+    // }
+    await transporter.sendMail(mailOptions, (error, success) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + success.response);
+      }
       res.json('Email sent');
-    } catch (err) {
-      res.json(err);
-    }
+    });
   }
 );
 

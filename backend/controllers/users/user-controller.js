@@ -298,6 +298,8 @@ const generateVerificationTokenController = expressAsyncHandler(
     try {
       // Generate a verification token
       const verificationToken = await user.createAccountVerificationToken();
+      // save user
+      await user.save();
       // send mail
       await transporter.sendMail(mailOptions, (error, success) => {
         if (success) {

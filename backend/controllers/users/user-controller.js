@@ -292,13 +292,23 @@ const generateVerificationTokenController = expressAsyncHandler(
     // } catch (err) {
     //   res.json(err);
     // }
-    await transporter.sendMail(mailOptions, (error, success) => {
-      if (success) {
-        res.json('Email sent: ' + success.response);
-      } else {
-        console.log(error);
-      }
-    });
+    const loginUserId = req.user.id;
+    const user = await User.findById(loginUserId);
+
+    try {
+      // Generate a verification token
+      const verificationToken = await user.createAccountVerificationToken();
+      // send mail
+      await transporter.sendMail(mailOptions, (error, success) => {
+        if (success) {
+          res.json('Email sent: ' + success.response);
+        } else {
+          console.log(error);
+        }
+      });
+    } catch (err) {
+      res.json(err);
+    }
   }
 );
 

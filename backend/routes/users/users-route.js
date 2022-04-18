@@ -31,7 +31,11 @@ router.put(
   authMiddleware,
   followingUserController
 );
-router.post('/api/users/send-mail', generateVerificationTokenController);
+router.post(
+  '/api/users/generate-verify-email-token',
+  authMiddleware,
+  generateVerificationTokenController
+);
 router.put(
   '/api/users/profile/unfollow',
   authMiddleware,

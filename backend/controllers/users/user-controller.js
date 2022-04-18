@@ -3,6 +3,7 @@ const User = require('../../models/user/User-model');
 const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../../config/token/generateToken');
 const validateMongoId = require('../../utils/validateMongoId');
+const crypto = require('crypto');
 // const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const nodeMailer = require('nodemailer');
@@ -11,20 +12,13 @@ const nodeMailer = require('nodemailer');
 let transporter = nodeMailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'thaparoyal27@gmail.com',
-    pass: 'M@HAKAAL',
+    user: `${process.env.EMAIL_USER}`,
+    pass: `${process.env.EMAIL_PASSWORD}`,
   },
   tls: {
     rejectUnauthorized: false,
   },
 });
-
-let mailOptions = {
-  from: 'thaparoyal27@gmail.com',
-  to: 'thaparoyal17@gmail.com',
-  subject: 'Email verification',
-  text: 'Click on the link to verify your email',
-};
 
 // register controller
 const userRegisterController = expressAsyncHandler(async (req, res) => {
@@ -275,7 +269,7 @@ const unBlockUserController = expressAsyncHandler(async (req, res) => {
   res.json(user);
 });
 
-// send email || account verification
+// send email || account verification || Generate email verification token
 
 const generateVerificationTokenController = expressAsyncHandler(
   async (req, res) => {
@@ -300,10 +294,20 @@ const generateVerificationTokenController = expressAsyncHandler(
       const verificationToken = await user.createAccountVerificationToken();
       // save user
       await user.save();
+
+      const resetURL = `Click the link to verify your account within 10 minutes to continue <a href="http://localhost:3000/verify-account/${verificationToken}">Click to verify</a>`;
+
+      let mailOptions = {
+        from: `${process.env.EMAIL_USER}`,
+        to: 'thaparoyasdaal17@gmail.com',
+        subject: 'Email verification',
+        html: resetURL,
+      };
+
       // send mail
       await transporter.sendMail(mailOptions, (error, success) => {
         if (success) {
-          res.json('Email sent: ' + success.response);
+          res.json(resetURL);
         } else {
           console.log(error);
         }
@@ -313,6 +317,26 @@ const generateVerificationTokenController = expressAsyncHandler(
     }
   }
 );
+
+// Account verification
+
+const accountVerificationController = expressAsyncHandler(async (req, res) => {
+  const { token } = req.body;
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  //find this user by token
+  const userFound = await User.findOne({
+    accountVerificationToken: hashedToken,
+    accountVerificationTokenExpiry: { $gt: new Date() },
+  });
+  if (!userFound) throw new Error('Token expired, try again later');
+  // update the property to true
+  userFound.isAccountVerified = true;
+  userFound.accountVerificationToken = undefined;
+  userFound.accountVerificationTokenExpiry = undefined;
+  await userFound.save();
+  res.json(userFound);
+});
 
 // exports
 module.exports = {
@@ -329,4 +353,5 @@ module.exports = {
   blockUserController,
   unBlockUserController,
   generateVerificationTokenController,
+  accountVerificationController,
 };

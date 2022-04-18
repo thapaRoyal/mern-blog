@@ -14,6 +14,7 @@ const {
   blockUserController,
   unBlockUserController,
   generateVerificationTokenController,
+  accountVerificationController,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -35,6 +36,11 @@ router.post(
   '/api/users/generate-verify-email-token',
   authMiddleware,
   generateVerificationTokenController
+);
+router.put(
+  '/api/users/verify-account',
+  authMiddleware,
+  accountVerificationController
 );
 router.put(
   '/api/users/profile/unfollow',

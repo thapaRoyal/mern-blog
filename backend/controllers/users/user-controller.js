@@ -346,11 +346,32 @@ const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error('User not found');
 
-  res.json('forget password token');
-
   try {
     const token = await user.createPasswordResetToken();
+    console.log({ token });
     await user.save();
+
+    const resetURL = `Click the link to reset your password. Link expires in 10 minutes <a href="http://localhost:3000/reset-password/${token}">Click to reset the password</a>`;
+
+    let mailOptions = {
+      from: `${process.env.EMAIL_USER}`,
+      to: email,
+      subject: 'Reset password',
+      html: resetURL,
+    };
+
+    const emailMsg = await transporter.sendMail(
+      mailOptions,
+      (error, success) => {
+        if (success) {
+          res.json(resetURL);
+        } else {
+          console.log(error);
+        }
+      }
+    );
+
+    res.json(emailMsg);
   } catch (error) {
     res.json(error);
   }

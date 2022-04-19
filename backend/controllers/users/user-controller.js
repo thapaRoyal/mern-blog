@@ -360,21 +360,44 @@ const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
       html: resetURL,
     };
 
-    const emailMsg = await transporter.sendMail(
-      mailOptions,
-      (error, success) => {
-        if (success) {
-          res.json(resetURL);
-        } else {
-          console.log(error);
-        }
+    await transporter.sendMail(mailOptions, (error, success) => {
+      if (success) {
+        res.json(resetURL);
+      } else {
+        console.log(error);
       }
-    );
+    });
 
-    res.json(emailMsg);
+    res.json({
+      msg: `A verification message is successfully sent to ${user.email}. Reset the password within 10 minutes, ${resetURL}`,
+    });
   } catch (error) {
     res.json(error);
   }
+});
+
+// password reset controller
+
+const passwordResetController = expressAsyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  // find this user by token
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetTokenExpiry: {
+      $gt: Date.now(),
+    },
+  });
+  if (!user) throw new Error('Token expired, try again later');
+
+  // update / change the password
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpiry = undefined;
+  await user.save();
+
+  res.json(user);
 });
 
 // exports
@@ -394,4 +417,5 @@ module.exports = {
   generateVerificationTokenController,
   accountVerificationController,
   forgetPasswordToken,
+  passwordResetController,
 };

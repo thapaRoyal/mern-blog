@@ -15,6 +15,7 @@ const {
   unBlockUserController,
   generateVerificationTokenController,
   accountVerificationController,
+  forgetPasswordToken,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -27,6 +28,7 @@ router.put(
   authMiddleware,
   updateUserPasswordController
 );
+router.post('/api/users/forget-password-token', forgetPasswordToken);
 router.put(
   '/api/users/profile/follow',
   authMiddleware,

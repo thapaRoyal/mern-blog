@@ -338,6 +338,24 @@ const accountVerificationController = expressAsyncHandler(async (req, res) => {
   res.json(userFound);
 });
 
+// forget password || Generate password reset token
+
+const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
+  // find the user by email
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new Error('User not found');
+
+  res.json('forget password token');
+
+  try {
+    const token = await user.createPasswordResetToken();
+    await user.save();
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 // exports
 module.exports = {
   userRegisterController,
@@ -354,4 +372,5 @@ module.exports = {
   unBlockUserController,
   generateVerificationTokenController,
   accountVerificationController,
+  forgetPasswordToken,
 };

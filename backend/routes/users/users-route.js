@@ -17,12 +17,23 @@ const {
   accountVerificationController,
   forgetPasswordToken,
   passwordResetController,
+  profilePhotoUploadController,
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
+const {
+  profilePhotoUpload,
+} = require('../../middleware/uploads/profilePhotoUpload');
 
 // register route
 router.post('/api/users/register', userRegisterController);
 router.post('/api/users/login', loginUserController);
+router.put(
+  '/api/users/profile/profile-photo-upload',
+  authMiddleware,
+  profilePhotoUpload,
+  profilePhotoUploadController
+);
+
 router.get('/api/users', authMiddleware, fetchAllUsersController);
 router.put(
   '/api/users/profile/password',

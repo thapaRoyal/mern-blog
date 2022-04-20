@@ -400,6 +400,12 @@ const passwordResetController = expressAsyncHandler(async (req, res) => {
   res.json(user);
 });
 
+// profile photo upload
+const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
+  console.log(req.file);
+  res.json('upload');
+});
+
 // exports
 module.exports = {
   userRegisterController,
@@ -418,4 +424,5 @@ module.exports = {
   accountVerificationController,
   forgetPasswordToken,
   passwordResetController,
+  profilePhotoUploadController,
 };

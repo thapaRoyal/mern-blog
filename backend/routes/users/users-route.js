@@ -22,6 +22,7 @@ const {
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 const {
   profilePhotoUpload,
+  profilePhotoResize,
 } = require('../../middleware/uploads/profilePhotoUpload');
 
 // register route
@@ -31,6 +32,7 @@ router.put(
   '/api/users/profile/profile-photo-upload',
   authMiddleware,
   profilePhotoUpload,
+  profilePhotoResize,
   profilePhotoUploadController
 );
 

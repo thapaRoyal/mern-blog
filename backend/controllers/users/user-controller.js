@@ -7,6 +7,7 @@ const crypto = require('crypto');
 // const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const nodeMailer = require('nodemailer');
+const coudinaryUploadImage = require('../../utils/cloudinary');
 
 // NODEMAILER
 let transporter = nodeMailer.createTransport({
@@ -402,8 +403,12 @@ const passwordResetController = expressAsyncHandler(async (req, res) => {
 
 // profile photo upload
 const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
-  console.log(req.file);
-  res.json('upload');
+  // 1. get the path to the image
+  const localPath = `public/images/profile/${req.file.filename}`;
+  // 2. upload to cloudinary
+  const imageUploaded = await coudinaryUploadImage(localPath);
+  console.log(imageUploaded);
+  res.json(localPath);
 });
 
 // exports

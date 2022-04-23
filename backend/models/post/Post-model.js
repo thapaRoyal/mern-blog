@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema(
   {
     title: {
-      type: string,
+      type: String,
       required: [true, 'Post title is required'],
       trim: true,
     },
@@ -36,7 +36,7 @@ const postSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'Post Author is required'],

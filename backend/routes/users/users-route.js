@@ -1,5 +1,5 @@
 // imports
-const router = require('express').Router();
+const userRoute = require('express').Router();
 const {
   userRegisterController,
   loginUserController,
@@ -26,9 +26,9 @@ const {
 } = require('../../middleware/uploads/profilePhotoUpload');
 
 // register route
-router.post('/api/users/register', userRegisterController);
-router.post('/api/users/login', loginUserController);
-router.put(
+userRoute.post('/api/users/register', userRegisterController);
+userRoute.post('/api/users/login', loginUserController);
+userRoute.put(
   '/api/users/profile/profile-photo-upload',
   authMiddleware,
   profilePhotoUpload,
@@ -36,51 +36,51 @@ router.put(
   profilePhotoUploadController
 );
 
-router.get('/api/users', authMiddleware, fetchAllUsersController);
-router.put(
+userRoute.get('/api/users', authMiddleware, fetchAllUsersController);
+userRoute.put(
   '/api/users/profile/password',
   authMiddleware,
   updateUserPasswordController
 );
-router.post('/api/users/forget-password-token', forgetPasswordToken);
-router.put('/api/users/reset-password', passwordResetController);
-router.put(
+userRoute.post('/api/users/forget-password-token', forgetPasswordToken);
+userRoute.put('/api/users/reset-password', passwordResetController);
+userRoute.put(
   '/api/users/profile/follow',
   authMiddleware,
   followingUserController
 );
-router.post(
+userRoute.post(
   '/api/users/generate-verify-email-token',
   authMiddleware,
   generateVerificationTokenController
 );
-router.put(
+userRoute.put(
   '/api/users/verify-account',
   authMiddleware,
   accountVerificationController
 );
-router.put(
+userRoute.put(
   '/api/users/profile/unfollow',
   authMiddleware,
   unfollowUserController
 );
-router.put(
+userRoute.put(
   '/api/users/profile/block-user/:id',
   authMiddleware,
   blockUserController
 );
-router.put(
+userRoute.put(
   '/api/users/profile/unblock-user/:id',
   authMiddleware,
   unBlockUserController
 );
-router.get('/api/users/profile/:id', authMiddleware, userProfileController);
-router.put(
+userRoute.get('/api/users/profile/:id', authMiddleware, userProfileController);
+userRoute.put(
   '/api/users/profile/:id',
   authMiddleware,
   updateUserProfileController
 );
-router.delete('/api/users/:id', deleteUserController);
-router.get('/api/users/:id', fetchUserDetailsController);
+userRoute.delete('/api/users/:id', deleteUserController);
+userRoute.get('/api/users/:id', fetchUserDetailsController);
 
-module.exports = router;
+module.exports = userRoute;

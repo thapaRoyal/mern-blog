@@ -21,9 +21,9 @@ const {
 } = require('../../controllers/users/user-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 const {
-  profilePhotoUpload,
+  photoUpload,
   profilePhotoResize,
-} = require('../../middleware/uploads/profilePhotoUpload');
+} = require('../../middleware/uploads/photoUpload');
 
 // register route
 userRoute.post('/api/users/register', userRegisterController);
@@ -31,7 +31,7 @@ userRoute.post('/api/users/login', loginUserController);
 userRoute.put(
   '/api/users/profile/profile-photo-upload',
   authMiddleware,
-  profilePhotoUpload,
+  photoUpload,
   profilePhotoResize,
   profilePhotoUploadController
 );

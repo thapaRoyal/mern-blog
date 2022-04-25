@@ -2,6 +2,7 @@ const {
   createPostController,
   fetchAllPostsController,
   fetchSinglePostController,
+  updatePostController,
 } = require('../../controllers/posts/postController');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 const {
@@ -20,5 +21,6 @@ postRoute.post(
 
 postRoute.get('/api/posts', fetchAllPostsController);
 postRoute.get('/api/post/:id', fetchSinglePostController);
+postRoute.put('/api/post/:id', authMiddleware, updatePostController);
 
 module.exports = postRoute;

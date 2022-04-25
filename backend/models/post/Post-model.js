@@ -4,12 +4,12 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      // required: [true, 'Post title is required'],
+      required: [true, 'Post title is required'],
       trim: true,
     },
     category: {
       type: String,
-      // required: [true, 'Post category is required'],
+      required: [true, 'Post category is required'],
       default: 'All',
     },
     isLiked: {
@@ -39,11 +39,11 @@ const postSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      // required: [true, 'Post Author is required'],
+      required: [true, 'Post Author is required'],
     },
     description: {
       type: String,
-      // required: [true, 'Post description is required'],
+      required: [true, 'Post description is required'],
     },
     image: {
       type: String,

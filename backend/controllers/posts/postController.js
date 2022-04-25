@@ -60,6 +60,14 @@ const fetchSinglePostController = expressAsyncHandler(async (req, res) => {
 
   try {
     const post = await Post.findById(id).populate('author');
+    // update number of views
+    await Post.findByIdAndUpdate(
+      id,
+      {
+        $inc: { numberOfViews: 1 },
+      },
+      { new: true }
+    );
     res.json(post);
   } catch (err) {
     res.json('error fetching post');

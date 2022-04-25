@@ -6,6 +6,7 @@ const Filter = require('bad-words');
 const User = require('../../models/user/User-model');
 const coudinaryUploadImage = require('../../utils/cloudinary');
 
+// create post
 const createPostController = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   //   validateMongoId(req.body.user);
@@ -42,4 +43,14 @@ const createPostController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createPostController };
+// fetch all posts
+const fetchAllPostsController = expressAsyncHandler(async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.json(posts);
+  } catch (err) {
+    res.json('error fetching posts');
+  }
+});
+
+module.exports = { createPostController, fetchAllPostsController };

@@ -1,5 +1,6 @@
 const {
   createPostController,
+  fetchAllPostsController,
 } = require('../../controllers/posts/postController');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 const {
@@ -15,5 +16,7 @@ postRoute.post(
   postImageResize,
   createPostController
 );
+
+postRoute.get('/api/posts', fetchAllPostsController);
 
 module.exports = postRoute;

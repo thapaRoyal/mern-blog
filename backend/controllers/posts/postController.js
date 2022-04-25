@@ -1,5 +1,6 @@
 const expressAsyncHandler = require('express-async-handler');
 const Post = require('../../models/post/Post-model');
+const fs = require('fs');
 const validateMongoId = require('../../utils/validateMongoId');
 const Filter = require('bad-words');
 const User = require('../../models/user/User-model');
@@ -28,12 +29,14 @@ const createPostController = expressAsyncHandler(async (req, res) => {
   const imageUploaded = await coudinaryUploadImage(localPath);
 
   try {
-    const post = await Post.create({
-      ...req.body,
-      image: imageUploaded.url,
-      user: _id,
-    });
-    res.json(post);
+    // const post = await Post.create({
+    //   ...req.body,
+    //   image: imageUploaded.url,
+    //   user: _id,
+    // });
+    res.json(imageUploaded);
+    // remove the image from the server
+    fs.unlinkSync(localPath);
   } catch (err) {
     res.json(err);
   }

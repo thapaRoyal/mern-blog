@@ -4,6 +4,7 @@ const expressAsyncHandler = require('express-async-handler');
 const generateToken = require('../../config/token/generateToken');
 const validateMongoId = require('../../utils/validateMongoId');
 const crypto = require('crypto');
+const fs = require('fs');
 // const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const nodeMailer = require('nodemailer');
@@ -419,7 +420,9 @@ const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
       new: true,
     }
   );
-  res.json(foundUser);
+  // 3. delete the local image
+  fs.unlinkSync(localPath);
+  res.json(imageUploaded);
 });
 
 // exports

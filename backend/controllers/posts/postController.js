@@ -53,4 +53,21 @@ const fetchAllPostsController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createPostController, fetchAllPostsController };
+// fetch single post
+const fetchSinglePostController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoId(id);
+
+  try {
+    const post = await Post.findById(id).populate('author');
+    res.json(post);
+  } catch (err) {
+    res.json('error fetching post');
+  }
+});
+
+module.exports = {
+  createPostController,
+  fetchAllPostsController,
+  fetchSinglePostController,
+};

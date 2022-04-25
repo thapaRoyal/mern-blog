@@ -129,6 +129,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// virtual method to populate created post
+userSchema.virtual('posts', {
+  ref: 'Post',
+  localField: '_id',
+  foreignField: 'author',
+});
+
 // hash password
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {

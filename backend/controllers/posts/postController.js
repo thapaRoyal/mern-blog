@@ -107,10 +107,19 @@ const deletePostController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// likes
+const likePostController = expressAsyncHandler(async (req, res) => {
+  // find the post to be liked
+  const { postId } = req.body;
+  const post = await Post.findById(postId);
+  res.json(post);
+});
+
 module.exports = {
   createPostController,
   fetchAllPostsController,
   fetchSinglePostController,
   updatePostController,
   deletePostController,
+  likePostController,
 };

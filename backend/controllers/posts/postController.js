@@ -112,6 +112,12 @@ const likePostController = expressAsyncHandler(async (req, res) => {
   // find the post to be liked
   const { postId } = req.body;
   const post = await Post.findById(postId);
+  //  find the login user
+  const loginUserId = req.user._id;
+  // find if this user has liked this post
+  const isLiked = post.isLiked;
+  // check if this user has disliked this post
+
   res.json(post);
 });
 

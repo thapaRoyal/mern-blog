@@ -128,7 +128,7 @@ const likePostController = expressAsyncHandler(async (req, res) => {
         $pull: {
           dislikes: loginUserId,
         },
-        isDisliked: false,
+        isDisLiked: false,
       },
       { new: true }
     );
@@ -165,6 +165,64 @@ const likePostController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// dislikes
+const dislikePostController = expressAsyncHandler(async (req, res) => {
+  // find the post to be disliked
+  const { postId } = req.body;
+  const post = await Post.findById(postId);
+  // find the login user
+  const loginUserId = req.user._id;
+  // check if this user has disliked this post
+  const isDisLiked = post.isDisLiked;
+  // check if this user has liked this post
+  const alreadyLiked = post.likes?.find(
+    (userId) => userId.toString() === loginUserId.toString()
+  );
+  // remove this user from likes array if exists
+  if (alreadyLiked) {
+    const post = await Post.findOneAndUpdate(
+      postId,
+      {
+        $pull: {
+          likes: loginUserId,
+        },
+        isLiked: false,
+      },
+      { new: true }
+    );
+    res.json(post);
+  }
+  // toggling
+  if (isDisLiked) {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $pull: {
+          disLikes: loginUserId,
+        },
+        isDisLiked: false,
+      },
+      { new: true }
+    );
+    res.json(post);
+  } else {
+    // add to likes
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          disLikes: loginUserId,
+        },
+        isDisLiked: true,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(post);
+  }
+});
+
 module.exports = {
   createPostController,
   fetchAllPostsController,
@@ -172,4 +230,5 @@ module.exports = {
   updatePostController,
   deletePostController,
   likePostController,
+  dislikePostController,
 };

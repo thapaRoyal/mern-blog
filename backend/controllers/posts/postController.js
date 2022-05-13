@@ -63,7 +63,6 @@ const fetchSinglePostController = expressAsyncHandler(async (req, res) => {
       .populate('author')
       .populate('disLikes')
       .populate('likes');
-    console.log(post);
     // update number of views
     await Post.findByIdAndUpdate(
       id,

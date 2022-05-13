@@ -59,7 +59,11 @@ const fetchSinglePostController = expressAsyncHandler(async (req, res) => {
   validateMongoId(id);
 
   try {
-    const post = await Post.findById(id).populate('author');
+    const post = await Post.findById(id)
+      .populate('author')
+      .populate('disLikes')
+      .populate('likes');
+    console.log(post);
     // update number of views
     await Post.findByIdAndUpdate(
       id,

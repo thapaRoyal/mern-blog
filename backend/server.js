@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { errorHandler, notFound } = require('./middleware/error/errorHandler');
 const userRoute = require('./routes/users/users-route');
 const postRoute = require('./routes/posts/posts-route');
+const commentRouter = require('./routes/comments/comments-route');
 
 // server
 const app = express();
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 // routes
 app.use(userRoute);
 app.use(postRoute);
+app.use(commentRouter);
 
 // middleware || error handler
 app.use(notFound);

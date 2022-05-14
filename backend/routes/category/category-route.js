@@ -3,6 +3,7 @@ const {
   createCategoryController,
   fetchAllCategoryController,
   fetchSingleCategoryController,
+  updateCategoryController,
 } = require('../../controllers/category/category-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -14,6 +15,11 @@ categoryRoute.get(
   '/api/category/:id',
   authMiddleware,
   fetchSingleCategoryController
+);
+categoryRoute.put(
+  '/api/category/:id',
+  authMiddleware,
+  updateCategoryController
 );
 
 module.exports = categoryRoute;

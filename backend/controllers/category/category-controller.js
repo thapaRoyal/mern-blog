@@ -1,5 +1,6 @@
 const expressAsyncHandler = require('express-async-handler');
 const Category = require('../../models/Category/category-model');
+const validateMongoId = require('../../utils/validateMongoId');
 
 // create
 const createCategoryController = expressAsyncHandler(async (req, res) => {
@@ -29,6 +30,7 @@ const fetchAllCategoryController = expressAsyncHandler(async (req, res) => {
 // fetch single category
 const fetchSingleCategoryController = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongoId(id);
   try {
     const category = await Category.findById(id)
       .populate('user')
@@ -39,8 +41,28 @@ const fetchSingleCategoryController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// update category
+const updateCategoryController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoId(id);
+
+  try {
+    const update = await Category.findByIdAndUpdate(
+      id,
+      {
+        title: req.body.title,
+      },
+      { new: true, runValidators: true }
+    );
+    res.json(update);
+  } catch (err) {
+    res.json('error updating category');
+  }
+});
+
 module.exports = {
   createCategoryController,
   fetchAllCategoryController,
   fetchSingleCategoryController,
+  updateCategoryController,
 };

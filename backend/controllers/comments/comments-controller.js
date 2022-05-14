@@ -23,7 +23,7 @@ const createCommentController = expressAsyncHandler(async (req, res) => {
 // fetch all comments
 const fetchAllCommentsController = expressAsyncHandler(async (req, res) => {
   try {
-    const comments = await Comment.find({});
+    const comments = await Comment.find({}).sort('-createdAt');
     res.json(comments);
   } catch (err) {
     console.log(err);

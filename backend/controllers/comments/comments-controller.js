@@ -1,6 +1,7 @@
 const expressAsyncHandler = require('express-async-handler');
 const Comment = require('../../models/comment/Comment-model');
 
+// create
 const createCommentController = expressAsyncHandler(async (req, res) => {
   // get the user
   const user = req.user;
@@ -19,4 +20,14 @@ const createCommentController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createCommentController };
+// fetch all comments
+const fetchAllCommentsController = expressAsyncHandler(async (req, res) => {
+  try {
+    const comments = await Comment.find({});
+    res.json(comments);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+module.exports = { createCommentController, fetchAllCommentsController };

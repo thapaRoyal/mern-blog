@@ -1,11 +1,13 @@
 const express = require('express');
 const {
   createCommentController,
+  fetchAllCommentsController,
 } = require('../../controllers/comments/comments-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
-const commentRouter = express.Router();
+const commentRoute = express.Router();
 
-commentRouter.post('/api/comments', authMiddleware, createCommentController);
+commentRoute.post('/api/comments', authMiddleware, createCommentController);
+commentRoute.get('/api/comments', authMiddleware, fetchAllCommentsController);
 
-module.exports = commentRouter;
+module.exports = commentRoute;

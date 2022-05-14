@@ -301,7 +301,7 @@ const generateVerificationTokenController = expressAsyncHandler(
 
       let mailOptions = {
         from: `${process.env.EMAIL_USER}`,
-        to: 'thaparoyasdaal17@gmail.com',
+        to: 'thaparoyal17@gmail.com',
         subject: 'Email verification',
         html: resetURL,
       };

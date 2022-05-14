@@ -7,6 +7,7 @@ const { errorHandler, notFound } = require('./middleware/error/errorHandler');
 const userRoute = require('./routes/users/users-route');
 const postRoute = require('./routes/posts/posts-route');
 const commentRoute = require('./routes/comments/comments-route');
+const emailMessageRoute = require('./routes/emailMessage/email-message-route');
 
 // server
 const app = express();
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(userRoute);
 app.use(postRoute);
 app.use(commentRoute);
+app.use(emailMessageRoute);
 
 // middleware || error handler
 app.use(notFound);

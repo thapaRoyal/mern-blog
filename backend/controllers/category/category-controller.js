@@ -26,4 +26,21 @@ const fetchAllCategoryController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createCategoryController, fetchAllCategoryController };
+// fetch single category
+const fetchSingleCategoryController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findById(id)
+      .populate('user')
+      .sort('-createdAt');
+    res.json(category);
+  } catch (err) {
+    res.json('error fetching categories');
+  }
+});
+
+module.exports = {
+  createCategoryController,
+  fetchAllCategoryController,
+  fetchSingleCategoryController,
+};

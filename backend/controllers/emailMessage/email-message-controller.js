@@ -1,6 +1,7 @@
 const expressAsyncHandler = require('express-async-handler');
 const nodeMailer = require('nodemailer');
 const EmailMessage = require('../../models/emailMessaging/email-messaging');
+const Filter = require('bad-words');
 
 // NODEMAILER
 let transporter = nodeMailer.createTransport({
@@ -16,6 +17,13 @@ let transporter = nodeMailer.createTransport({
 
 const sendEmailMessageController = expressAsyncHandler(async (req, res) => {
   const { to, subject, message } = req.body;
+  // get the message
+  const emailMessage = subject + ' ' + message;
+  // prevent profanity
+  const filter = new Filter();
+  const isProfane = filter.isProfane(emailMessage);
+  if (isProfane) throw new Error('Profanity is not allowed');
+
   try {
     let mailOptions = {
       from: `${process.env.EMAIL_USER}`,

@@ -8,6 +8,7 @@ const userRoute = require('./routes/users/users-route');
 const postRoute = require('./routes/posts/posts-route');
 const commentRoute = require('./routes/comments/comments-route');
 const emailMessageRoute = require('./routes/emailMessage/email-message-route');
+const categoryRoute = require('./routes/category/category-route');
 
 // server
 const app = express();
@@ -23,6 +24,7 @@ app.use(userRoute);
 app.use(postRoute);
 app.use(commentRoute);
 app.use(emailMessageRoute);
+app.use(categoryRoute);
 
 // middleware || error handler
 app.use(notFound);

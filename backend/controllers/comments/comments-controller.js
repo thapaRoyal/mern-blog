@@ -30,4 +30,19 @@ const fetchAllCommentsController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createCommentController, fetchAllCommentsController };
+// fetch single comment
+const fetchSingleCommentController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const comment = await Comment.findById(id);
+    res.json(comment);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+module.exports = {
+  createCommentController,
+  fetchAllCommentsController,
+  fetchSingleCommentController,
+};

@@ -63,9 +63,21 @@ const updateCommentController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// delete comment
+const deleteCommentController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const comment = await Comment.findByIdAndDelete(id);
+    res.json(comment);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = {
   createCommentController,
   fetchAllCommentsController,
   fetchSingleCommentController,
   updateCommentController,
+  deleteCommentController,
 };

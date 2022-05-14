@@ -4,6 +4,7 @@ const {
   fetchAllCommentsController,
   fetchSingleCommentController,
   updateCommentController,
+  deleteCommentController,
 } = require('../../controllers/comments/comments-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -17,5 +18,10 @@ commentRoute.get(
   fetchSingleCommentController
 );
 commentRoute.put('/api/comments/:id', authMiddleware, updateCommentController);
+commentRoute.delete(
+  '/api/comments/:id',
+  authMiddleware,
+  deleteCommentController
+);
 
 module.exports = commentRoute;

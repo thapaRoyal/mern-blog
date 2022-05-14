@@ -4,6 +4,7 @@ const {
   fetchAllCategoryController,
   fetchSingleCategoryController,
   updateCategoryController,
+  deleteCategoryController,
 } = require('../../controllers/category/category-controller');
 const authMiddleware = require('../../middleware/auth/authMiddleware');
 
@@ -20,6 +21,11 @@ categoryRoute.put(
   '/api/category/:id',
   authMiddleware,
   updateCategoryController
+);
+categoryRoute.delete(
+  '/api/category/:id',
+  authMiddleware,
+  deleteCategoryController
 );
 
 module.exports = categoryRoute;

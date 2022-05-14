@@ -60,9 +60,23 @@ const updateCategoryController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+//delete category
+const deleteCategoryController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoId(id);
+
+  try {
+    const category = await Category.findByIdAndDelete(id);
+    res.json(category);
+  } catch (err) {
+    res.json('error deleting category');
+  }
+});
+
 module.exports = {
   createCategoryController,
   fetchAllCategoryController,
   fetchSingleCategoryController,
   updateCategoryController,
+  deleteCategoryController,
 };

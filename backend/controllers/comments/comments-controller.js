@@ -1,5 +1,6 @@
 const expressAsyncHandler = require('express-async-handler');
 const Comment = require('../../models/comment/Comment-model');
+const validateMongoId = require('../../utils/validateMongoId');
 
 // create
 const createCommentController = expressAsyncHandler(async (req, res) => {
@@ -66,6 +67,7 @@ const updateCommentController = expressAsyncHandler(async (req, res) => {
 // delete comment
 const deleteCommentController = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongoId(id);
   try {
     const comment = await Comment.findByIdAndDelete(id);
     res.json(comment);

@@ -41,8 +41,31 @@ const fetchSingleCommentController = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// update comment
+const updateCommentController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const comment = await Comment.findByIdAndUpdate(
+      id,
+      {
+        post: req.body.postId,
+        user: req.user,
+        description: req.body.description,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.json(comment);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = {
   createCommentController,
   fetchAllCommentsController,
   fetchSingleCommentController,
+  updateCommentController,
 };

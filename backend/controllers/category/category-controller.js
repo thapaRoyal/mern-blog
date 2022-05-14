@@ -14,4 +14,16 @@ const createCategoryController = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createCategoryController };
+// fetch all category
+const fetchAllCategoryController = expressAsyncHandler(async (req, res) => {
+  try {
+    const categories = await Category.find({})
+      .populate('user')
+      .sort('-createdAt');
+    res.json(categories);
+  } catch (err) {
+    res.json('error fetching categories');
+  }
+});
+
+module.exports = { createCategoryController, fetchAllCategoryController };

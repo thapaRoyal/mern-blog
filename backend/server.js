@@ -9,6 +9,7 @@ const postRoute = require('./routes/posts/posts-route');
 const commentRoute = require('./routes/comments/comments-route');
 const emailMessageRoute = require('./routes/emailMessage/email-message-route');
 const categoryRoute = require('./routes/category/category-route');
+const cors = require('cors');
 
 // server
 const app = express();
@@ -18,6 +19,7 @@ DbConnect();
 
 // middleware
 app.use(bodyParser.json());
+app.use(cors());
 
 // routes
 app.use(userRoute);

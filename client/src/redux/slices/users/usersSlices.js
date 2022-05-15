@@ -13,7 +13,7 @@ export const registerUserAction = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        'http://localhost:5000/api/users/register',
+        'http://localhost:8000/api/users/register',
         user,
         config
       );

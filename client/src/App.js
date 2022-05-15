@@ -1,5 +1,20 @@
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  BrowserRouter,
+} from 'react-router-dom';
+import HomePage from './components/HomePage/HomePage';
+
 function App() {
-  return <h1 className="text-yellow-400"></h1>;
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;

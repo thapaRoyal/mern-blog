@@ -57,11 +57,16 @@ export const loginUserAction = createAsyncThunk(
   }
 );
 
+// get user from local storage
+const userLoginFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null;
+
 // slices
 const usersSlices = createSlice({
   name: 'users',
   initialState: {
-    userAuth: 'login',
+    userAuth: userLoginFromStorage,
   },
   extraReducers: (builder) => {
     // register

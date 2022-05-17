@@ -61,10 +61,11 @@ const Register = () => {
                     Register Account
                   </h3>
                   {/* display err message */}
-                  {appErr || serverErr ? (
-                    <div className="text-red-400 text-lg font-semibold">
-                      <h2>{appErr}</h2>
-                    </div>
+                  {/* display err */}
+                  {serverErr || appErr ? (
+                    <h2 className="text-red-500">
+                      {serverErr} - {appErr}
+                    </h2>
                   ) : null}
 
                   {/* First name */}

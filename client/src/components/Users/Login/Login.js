@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import poster from '../../../img/poster.png';
-// import { loginUserAction } from '../../../redux/slices/users/usersSlices';
+import { loginUserAction } from '../../../redux/slices/users/usersSlices';
 
 //Form schema
 const formSchema = Yup.object({
@@ -22,8 +22,7 @@ const Login = () => {
     },
     onSubmit: (values) => {
       //dispath the action
-      //   dispatch(loginUserAction(values));
-      console.log(values);
+      dispatch(loginUserAction(values));
     },
     validationSchema: formSchema,
   });

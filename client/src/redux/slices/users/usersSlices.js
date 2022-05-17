@@ -64,6 +64,7 @@ const usersSlices = createSlice({
     userAuth: 'login',
   },
   extraReducers: (builder) => {
+    // register
     builder.addCase(registerUserAction.pending, (state, action) => {
       state.loading = true;
       state.appErr = undefined;
@@ -76,7 +77,24 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(registerUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+      state.loading = false;
+      state.appErr = action?.payload?.error;
+      state.serverErr = action?.error?.message;
+    });
+
+    // login
+    builder.addCase(loginUserAction.pending, (state, action) => {
+      state.loading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.userAuth = action?.payload;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(loginUserAction.rejected, (state, action) => {
       state.loading = false;
       state.appErr = action?.payload?.error;
       state.serverErr = action?.error?.message;

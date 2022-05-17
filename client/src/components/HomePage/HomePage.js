@@ -6,7 +6,7 @@ const HomePage = () => {
     <>
       <section className="pb-10 bg-gray-800 ">
         <div className="relative container px-4 mx-auto">
-          <div className="flex flex-wrap items-center -mx-4 mb-10 2xl:mb-14">
+          <div className="flex flex-wrap items-center -mx-4 mb-10 2xl:mb-14 h-[100vh] overflow-hidden">
             <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0 h-[100vh]">
               <span className="text-lg font-bold text-blue-400">
                 Create posts to educate

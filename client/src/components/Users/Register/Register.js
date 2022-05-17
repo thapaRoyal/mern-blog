@@ -19,10 +19,10 @@ const Register = () => {
   // formik
   const formik = useFormik({
     initialValues: {
-      firstName: 'a',
-      lastName: 'b',
-      email: 'a@b.c',
-      password: '123',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
     },
     onSubmit: (values) => {
       dispatch(registerUserAction(values));

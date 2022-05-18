@@ -19,3 +19,29 @@ export const createCategoryAction = createAsyncThunk(
     }
   }
 );
+
+// slices
+const categorySlice = createSlice({
+  name: 'category',
+  initialState: {
+    categories: ['node js'],
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createCategoryAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(createCategoryAction.fulfilled, (state, action) => {
+      state.category = action.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(createCategoryAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+  },
+});
+
+export default categorySlice.reducer;

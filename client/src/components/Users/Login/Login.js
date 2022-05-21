@@ -1,15 +1,15 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { Redirect, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import poster from '../../../img/poster.png';
-import { loginUserAction } from '../../../redux/slices/users/usersSlices';
+import React from "react";
+import { useFormik } from "formik";
+import { Redirect, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import poster from "../../../img/poster.png";
+import { loginUserAction } from "../../../redux/slices/users/usersSlices";
 
 //Form schema
 const formSchema = Yup.object({
-  email: Yup.string().required('Email is required'),
-  password: Yup.string().required('Password is required'),
+  email: Yup.string().required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });
 
 const Login = () => {
@@ -17,10 +17,10 @@ const Login = () => {
   //formik
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-    onSubmit: (values) => {
+    onSubmit: values => {
       //dispath the action
       dispatch(loginUserAction(values));
     },
@@ -28,7 +28,7 @@ const Login = () => {
   });
 
   //redirect
-  const store = useSelector((state) => state?.users);
+  const store = useSelector(state => state?.users);
   const { userAuth, loading, serverErr, appErr } = store;
   if (userAuth) return <Redirect to={`/profile/${userAuth?._id}`} />;
   return (
@@ -81,8 +81,8 @@ const Login = () => {
                       {/* Email */}
                       <input
                         value={formik.values.email}
-                        onChange={formik.handleChange('email')}
-                        onBlur={formik.handleBlur('email')}
+                        onChange={formik.handleChange("email")}
+                        onBlur={formik.handleBlur("email")}
                         className="w-full pr-6 pl-4 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                         type="email"
                         placeholder="enter email"
@@ -115,8 +115,8 @@ const Login = () => {
                       {/* Password */}
                       <input
                         value={formik.values.password}
-                        onChange={formik.handleChange('password')}
-                        onBlur={formik.handleBlur('password')}
+                        onChange={formik.handleChange("password")}
+                        onBlur={formik.handleBlur("password")}
                         className="w-full pr-6 pl-4 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                         type="password"
                         placeholder=" Password"

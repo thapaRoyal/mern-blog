@@ -1,15 +1,15 @@
-import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { baseUrl } from '../../../utils/baseUrl';
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import baseUrl from "../../../utils/baseURL";
 
 //action to redirect
-const resetEditAction = createAction('category/reset');
-const resetDeleteAction = createAction('category/delete-reset');
-const resetCategoryAction = createAction('category/created-reset');
+const resetEditAction = createAction("category/reset");
+const resetDeleteAction = createAction("category/delete-reset");
+const resetCategoryAction = createAction("category/created-reset");
 
 //action
 export const createCategoryAction = createAsyncThunk(
-  'category/create',
+  "category/create",
   async (category, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -42,7 +42,7 @@ export const createCategoryAction = createAsyncThunk(
 
 //fetch all action
 export const fetchCategoriesAction = createAsyncThunk(
-  'category/fetch',
+  "category/fetch",
   async (category, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -67,7 +67,7 @@ export const fetchCategoriesAction = createAsyncThunk(
 
 //Update
 export const updateCategoriesAction = createAsyncThunk(
-  'category/update',
+  "category/update",
   async (category, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -98,7 +98,7 @@ export const updateCategoriesAction = createAsyncThunk(
 
 //delete
 export const deleteCategoriesAction = createAsyncThunk(
-  'category/delete',
+  "category/delete",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -128,7 +128,7 @@ export const deleteCategoriesAction = createAsyncThunk(
 
 //fetch details
 export const fetchCategoryAction = createAsyncThunk(
-  'category/details',
+  "category/details",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -153,9 +153,9 @@ export const fetchCategoryAction = createAsyncThunk(
 //slices
 
 const categorySlices = createSlice({
-  name: 'category',
+  name: "category",
   initialState: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     //create
     builder.addCase(createCategoryAction.pending, (state, action) => {
       state.loading = true;

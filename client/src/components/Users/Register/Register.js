@@ -1,42 +1,47 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUserAction } from '../../../redux/slices/users/usersSlices';
-import { Redirect } from 'react-router-dom';
+import React from "react";
+import { useFormik } from "formik";
+import { Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { registerUserAction } from "../../../redux/slices/users/usersSlices";
 
-// Form Schema
+//Form schema
 const formSchema = Yup.object({
-  firstName: Yup.string().required('First Name is required'),
-  lastName: Yup.string().required('Last Name is required'),
-  email: Yup.string().required('Email is required'),
-  password: Yup.string().required('Password is required'),
+  firstName: Yup.string().required("First Name is required"),
+  lastName: Yup.string().required("Last Name is required"),
+  email: Yup.string().required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });
-
+//-------------------------------
+//Register
+//-------------------------------
 const Register = () => {
-  // dispatch
+  //dispath
   const dispatch = useDispatch();
-  // formik
+
+  //formik
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     },
-    onSubmit: (values) => {
+    onSubmit: values => {
+      //dispath the action
       dispatch(registerUserAction(values));
+      console.log(values);
     },
     validationSchema: formSchema,
   });
 
-  // select state from store
-  const storeData = useSelector((store) => store?.users);
+  //select state from store
+  const storeData = useSelector(store => store?.users);
   const { loading, appErr, serverErr, registered } = storeData;
 
-  // redirect
+  //redirect
   if (registered) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -59,14 +64,13 @@ const Register = () => {
                 <form onSubmit={formik.handleSubmit}>
                   <h3 className="mb-10 text-2xl text-white font-bold font-heading">
                     Register Account
+                    {/* display error message*/}
+                    {appErr || serverErr ? (
+                      <div className="text-red-400">
+                        {serverErr} {appErr}
+                      </div>
+                    ) : null}
                   </h3>
-                  {/* display err message */}
-                  {/* display err */}
-                  {serverErr || appErr ? (
-                    <h2 className="text-red-500">
-                      {serverErr} - {appErr}
-                    </h2>
-                  ) : null}
 
                   {/* First name */}
                   <div className="flex items-center pl-6 mb-3 bg-white rounded-full">
@@ -80,8 +84,8 @@ const Register = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
                           d="M7.29593 0.492188C4.81333 0.492188 2.80078 2.50474 2.80078 4.98734C2.80078 7.46993 4.81333 9.48248 7.29593 9.48248C9.77851 9.48248 11.7911 7.46993 11.7911 4.98734C11.7911 2.50474 9.77851 0.492188 7.29593 0.492188ZM3.69981 4.98734C3.69981 3.00125 5.30985 1.39122 7.29593 1.39122C9.28198 1.39122 10.892 3.00125 10.892 4.98734C10.892 6.97342 9.28198 8.58346 7.29593 8.58346C5.30985 8.58346 3.69981 6.97342 3.69981 4.98734Z"
                           fill="black"
                         ></path>
@@ -110,8 +114,8 @@ const Register = () => {
                     </span>
                     <input
                       value={formik.values.firstName}
-                      onChange={formik.handleChange('firstName')}
-                      onBlur={formik.handleBlur('firstName')}
+                      onChange={formik.handleChange("firstName")}
+                      onBlur={formik.handleBlur("firstName")}
                       className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                       type="firstName"
                       placeholder="First Name"
@@ -133,8 +137,8 @@ const Register = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
                           d="M7.29593 0.492188C4.81333 0.492188 2.80078 2.50474 2.80078 4.98734C2.80078 7.46993 4.81333 9.48248 7.29593 9.48248C9.77851 9.48248 11.7911 7.46993 11.7911 4.98734C11.7911 2.50474 9.77851 0.492188 7.29593 0.492188ZM3.69981 4.98734C3.69981 3.00125 5.30985 1.39122 7.29593 1.39122C9.28198 1.39122 10.892 3.00125 10.892 4.98734C10.892 6.97342 9.28198 8.58346 7.29593 8.58346C5.30985 8.58346 3.69981 6.97342 3.69981 4.98734Z"
                           fill="black"
                         ></path>
@@ -163,8 +167,8 @@ const Register = () => {
                     </span>
                     <input
                       value={formik.values.lastName}
-                      onChange={formik.handleChange('lastName')}
-                      onBlur={formik.handleBlur('lastName')}
+                      onChange={formik.handleChange("lastName")}
+                      onBlur={formik.handleBlur("lastName")}
                       className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                       type="lastName"
                       placeholder="Last Name"
@@ -186,8 +190,8 @@ const Register = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
                           d="M7.29593 0.492188C4.81333 0.492188 2.80078 2.50474 2.80078 4.98734C2.80078 7.46993 4.81333 9.48248 7.29593 9.48248C9.77851 9.48248 11.7911 7.46993 11.7911 4.98734C11.7911 2.50474 9.77851 0.492188 7.29593 0.492188ZM3.69981 4.98734C3.69981 3.00125 5.30985 1.39122 7.29593 1.39122C9.28198 1.39122 10.892 3.00125 10.892 4.98734C10.892 6.97342 9.28198 8.58346 7.29593 8.58346C5.30985 8.58346 3.69981 6.97342 3.69981 4.98734Z"
                           fill="black"
                         ></path>
@@ -216,18 +220,17 @@ const Register = () => {
                     </span>
                     <input
                       value={formik.values.email}
-                      onChange={formik.handleChange('email')}
-                      onBlur={formik.handleBlur('email')}
+                      onChange={formik.handleChange("email")}
+                      onBlur={formik.handleBlur("email")}
                       className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                       type="email"
                       placeholder="example@gmail.com"
                     />
                   </div>
-                  {/* err msg */}
+                  {/* Err msg*/}
                   <div className="text-red-400 mb-2">
                     {formik.touched.email && formik.errors.email}
                   </div>
-
                   <div className="flex items-center pl-6 mb-3 bg-white rounded-full">
                     <span className="inline-block pr-3 py-2 border-r border-gray-50">
                       <svg
@@ -250,28 +253,27 @@ const Register = () => {
                     </span>
                     <input
                       value={formik.values.password}
-                      onChange={formik.handleChange('password')}
-                      onBlur={formik.handleBlur('password')}
+                      onChange={formik.handleChange("password")}
+                      onBlur={formik.handleBlur("password")}
                       className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
                       type="password"
                       placeholder="Password"
                     />
                   </div>
                   {/* Err msg*/}
-
                   <div className="text-red-400 mb-2">
                     {formik.touched.password && formik.errors.password}
                   </div>
 
                   <div className="inline-flex mb-10"></div>
 
-                  {/* {check for loading} */}
+                  {/* Check for loading */}
                   {loading ? (
                     <button
                       disabled
-                      className="py-4 w-full bg-blue-500  text-white font-bold rounded-full transition duration-200"
+                      className="py-4 w-full bg-gray-500  text-white font-bold rounded-full transition duration-200"
                     >
-                      loading please wait ...
+                      loading please wait...
                     </button>
                   ) : (
                     <button
